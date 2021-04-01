@@ -4,7 +4,7 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
 
-const { getUnidad, getUnidadId, crearUnidad, actualizarUnidad, borrarUnidad } = require('../controllers/unidades');
+const { getUnidad, getUnidadId, crearUnidad, actualizarUnidad, borrarUnidad, getUnidadesPorEmpresa } = require('../controllers/unidades');
 
 const { validarCampos } = require('../middlewares/validar-campos');
 const { validarJWT } = require('../middlewares/validar-jwt');
@@ -14,6 +14,14 @@ const router = Router();
 router.get('/', validarJWT,getUnidad);
 
 router.get('/:id', validarJWT,getUnidadId);
+
+router.post('/empresa', validarJWT,
+    [
+        check('empresa', 'El campo debe ser valido').isMongoId(),
+        validarCampos,
+    ],
+    getUnidadesPorEmpresa
+);
 
 router.post('/', validarJWT,
     [

@@ -39,6 +39,7 @@ app.use('/api/sistemapago', require('./routes/sistemapago'));
 app.use('/api/defensa', require('./routes/defensa'));
 app.use('/api/area', require('./routes/area'));
 app.use('/api/cargo', require('./routes/cargo'));
+app.use('/api/empleado', require('./routes/empleado'));
 app.use('/api/usuarios', require('./routes/usuarios'));
 app.use('/api/login', require('./routes/auth'));
 

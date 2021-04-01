@@ -55,6 +55,24 @@ const getUnidadId = async (req, res = response) =>{
 
 }
 
+//Devolver Provincias por paise
+const getUnidadesPorEmpresa = async (req, res = response)=>{
+
+    const { empresa } = req.body;
+
+    if(empresa){
+        const [unidades] = await Promise.all([
+            Unidad.find({empresa: {_id: empresa}}),
+            Unidad.countDocuments()
+        ]);
+    
+        res.json({
+            ok:true,
+            unidades
+        });
+    }
+}
+
 //Crear Unidad
 const crearUnidad = async (req, res = response) => {
     //hacer el destructurin para obtener los daos que vienen del body
@@ -165,6 +183,7 @@ const borrarUnidad = async (req, res = response) => {
 module.exports = {
     getUnidad,
     getUnidadId,
+    getUnidadesPorEmpresa,
     crearUnidad,
     actualizarUnidad,
     borrarUnidad

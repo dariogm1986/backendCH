@@ -4,7 +4,7 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
 
-const { getArea, getAreaId, crearArea, actualizarArea, borrarArea } = require('../controllers/area');
+const { getArea, getAreaId, crearArea, actualizarArea, borrarArea, getAreaPorUnidad } = require('../controllers/area');
 
 const { validarCampos } = require('../middlewares/validar-campos');
 const { validarJWT } = require('../middlewares/validar-jwt');
@@ -14,6 +14,14 @@ const router = Router();
 router.get('/', validarJWT,getArea);
 
 router.get('/:id', validarJWT,getAreaId);
+
+router.post('/unidad', validarJWT,
+    [
+        check('unidad', 'El campo debe ser valido').isMongoId(),
+        validarCampos,
+    ],
+    getAreaPorUnidad
+);
 
 router.post('/', validarJWT,
     [

@@ -57,17 +57,19 @@ const getProvinciaId = async (req, res = response) =>{
 //Devolver Provincias por paise
 const getProvinciasPorPais = async (req, res = response)=>{
 
-    //const pais = req.params.pais;
-    const pais = req.body;
+    const { pais } = req.body;
 
-    const provincia = await Promise.all([
-        Provincia.find({'pais': pais})
-    ]);
-
-    res.json({
-        ok:true,
-        provincia
-    });
+    if(pais){
+        const [provincia] = await Promise.all([
+            Provincia.find({pais: {_id: pais}}),
+            Provincia.countDocuments()
+        ]);
+    
+        res.json({
+            ok:true,
+            provincia
+        });
+    }
 }
 
 //Crear Provincia

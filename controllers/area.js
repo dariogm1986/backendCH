@@ -59,6 +59,24 @@ const getAreaId = async (req, res = response) =>{
 
 }
 
+//Devolver Area por Unidad
+const getAreaPorUnidad = async (req, res = response)=>{
+
+    const { unidad } = req.body;
+
+    if(unidad){
+        const [area] = await Promise.all([
+            Area.find({unidad: {_id: unidad}}),
+            Area.countDocuments()
+        ]);
+    
+        res.json({
+            ok:true,
+            area
+        });
+    }
+}
+
 //Crear Area
 const crearArea = async (req, res = response) => {
     //hacer el destructurin para obtener los daos que vienen del body
@@ -169,6 +187,7 @@ const borrarArea = async (req, res = response) => {
 module.exports = {
     getArea,
     getAreaId,
+    getAreaPorUnidad,
     crearArea,
     actualizarArea,
     borrarArea

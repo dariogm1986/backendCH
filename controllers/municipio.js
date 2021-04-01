@@ -55,6 +55,24 @@ const getMunicipioId = async (req, res = response) =>{
 
 }
 
+//Devolver Municipios por Provincias
+const getMunicipiosPorProvincia = async (req, res = response)=>{
+
+    const { provincia } = req.body;
+
+    if(provincia){
+        const [municipio] = await Promise.all([
+            Municipio.find({provincia: {_id: provincia}}),
+            Municipio.countDocuments()
+        ]);
+    
+        res.json({
+            ok:true,
+            municipio
+        });
+    }
+}
+
 //Crear Municipio
 const crearMunicipio = async (req, res = response) => {
     //hacer el destructurin para obtener los daos que vienen del body
@@ -165,6 +183,7 @@ const borrarMunicipio = async (req, res = response) => {
 module.exports = {
     getMunicipio,
     getMunicipioId,
+    getMunicipiosPorProvincia,
     crearMunicipio,
     actualizarMunicipio,
     borrarMunicipio
